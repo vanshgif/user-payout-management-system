@@ -27,7 +27,7 @@ class SaleService:
         ).first()
 
         if not user:
-            raise ValueError("User not found")
+            raise UserNotFoundException()
 
         # Create Sale
         sale = Sale(

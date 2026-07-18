@@ -8,6 +8,9 @@ from app.database import Base
 from app.core.enums import WithdrawalStatus
 
 
+from sqlalchemy import DateTime
+from datetime import datetime
+
 class Withdrawal(Base):
     __tablename__ = "withdrawals"
 
@@ -33,4 +36,17 @@ class Withdrawal(Base):
     user = relationship(
         "User",
         back_populates="withdrawals"
+    )
+
+    created_at = Column(
+    DateTime,
+    default=datetime.utcnow,
+    nullable=False
+    )
+
+    updated_at = Column(
+    DateTime,
+    default=datetime.utcnow,
+    onupdate=datetime.utcnow,
+    nullable=False
     )
