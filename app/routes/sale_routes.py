@@ -28,10 +28,15 @@ def create_sale(
 
 @router.patch("/{sale_id}/status")
 def update_sale_status(
+    
     sale_id: UUID,
     request: SaleStatusUpdate,
     db: Session = Depends(get_db)
 ):
+    
+    
+    
+    
 
     return SaleService.update_sale_status(
         db,

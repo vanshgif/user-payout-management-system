@@ -3,12 +3,13 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
+from app.exceptions.custom_exceptions import UserNotFoundException, WithdrawalNotFoundException
 from app.models.user import User
 from app.models.withdrawal import Withdrawal
 from app.core.enums import WithdrawalStatus
 from app.schemas.withdrawal import WithdrawalCreate
 from app.services.wallet_service import WalletService
-
+from app.exceptions.custom_exceptions import  WithdrawalAlreadyProcessedException
 
 class WithdrawalService:
 
@@ -19,7 +20,7 @@ class WithdrawalService:
         user = db.query(User).filter(User.id == withdrawal_data.user_id).first()
 
         if not user:
-            raise ValueError("User not found.")
+            raise ()
 
         # Check last successful/pending withdrawal
         last_withdrawal = (
@@ -74,7 +75,7 @@ class WithdrawalService:
         )
 
         if not withdrawal:
-            raise ValueError("Withdrawal not found.")
+            raise WithdrawalNotFoundException()
 
         return withdrawal
 
@@ -106,7 +107,7 @@ class WithdrawalService:
 
         # Prevent duplicate processing
         if withdrawal.status != WithdrawalStatus.PENDING:
-            raise ValueError("Withdrawal has already been processed.")
+            raise WithdrawalAlreadyProcessedException()
 
         withdrawal.status = status
 

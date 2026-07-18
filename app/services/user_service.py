@@ -3,6 +3,15 @@ from sqlalchemy.orm import Session
 from app.models.user import User
 from app.schemas.user import UserCreate
 
+from app.exceptions.custom_exceptions import (
+    UserNotFoundException,
+    SaleNotFoundException,
+    WithdrawalNotFoundException,
+    InsufficientBalanceException,
+    WithdrawalCooldownException,
+    WithdrawalAlreadyProcessedException,
+    InvalidSaleStatusException,
+)
 
 class UserService:
 
